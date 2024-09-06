@@ -1,20 +1,11 @@
-import asyncio
 import json
 import time
-from http.client import responses
-from idlelib.editor import darwin
 
-from typing import List
-
-from aiohttp.web import run_app
-from certifi import contents
 from openai import OpenAI
-from openai.resources.beta.threads import Messages
-from pyexpat.errors import messages
 
 
 class AIHelperHub:
-    def __init__(self, api_key: str, organization_key: str, chat_history: list, assistant: list) -> None:
+    def __init__(self, api_key: str, chat_history: list, assistant: list) -> None:
         self.API_KEY = api_key
         self.chat_history = chat_history
         self.client = OpenAI(api_key=self.API_KEY)

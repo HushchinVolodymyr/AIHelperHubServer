@@ -1,7 +1,6 @@
 import json
 
 from aiohttp import web
-from openai.types.beta import Assistant
 
 from AI import AIHelperHub
 from DTOs.messageDto import MessageDto

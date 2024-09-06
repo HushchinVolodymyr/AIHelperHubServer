@@ -26,12 +26,11 @@ async def index(request):
 
       assistantCfg = find_assistant_by_id(chatExample, chatAssistants)
 
-      assistant = AIHelperHub(api_key=config['AI']['apiKey'], organization_key=config['AI']['organizationKey'],
-                              chat_history=chatHistory, assistant=assistantCfg)
+      assistant = AIHelperHub(api_key=config['AI']['apiKey'], chat_history=chatHistory, assistant=assistantCfg)
 
       message = assistant.generate_response()
 
-      messageDto = MessageDto(id = chatHistory[-1]['id'] + 1, messageType=False , message=message)
+      messageDto = MessageDto(id = chatHistory[-1]['id'] + 1, message_type=False , message=message)
 
       message_response = json.dumps(messageDto.to_dict())
 

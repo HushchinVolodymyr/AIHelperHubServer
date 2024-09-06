@@ -23,7 +23,7 @@ class AIHelperHub:
             }
         )
 
-        run_result = json.loads(run_object.json())
+        run_result = json.loads(run_object)
 
         run_id = run_result['id']
         thread_id = run_result['thread_id']
@@ -37,7 +37,7 @@ class AIHelperHub:
 
         thread_messages = self.client.beta.threads.messages.list(thread_id=thread_id)
 
-        data = json.loads(thread_messages.data[0].json())
+        data = json.loads(thread_messages.data[0])
 
         message_response = data['content'][0]['text']['value']
 

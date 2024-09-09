@@ -1,5 +1,6 @@
 import json
 import time
+import re
 
 from openai import OpenAI
 
@@ -12,6 +13,8 @@ class AIHelperHub:
         self.assistant = assistant
         self.assistant_id = str(assistant['assistantId'])
 
+    def __clean_meta_info(self, text: str) -> str:
+        return re.sub(r'【\d+:\d+†source】', '', text)
 
     def generate_response(self) -> str:
         run_object = self.client.beta.threads.create_and_run(
@@ -23,7 +26,7 @@ class AIHelperHub:
             }
         )
 
-        run_result = json.loads(run_object)
+        run_result = json.loads(run_object.json())
 
         run_id = run_result['id']
         thread_id = run_result['thread_id']
@@ -37,9 +40,13 @@ class AIHelperHub:
 
         thread_messages = self.client.beta.threads.messages.list(thread_id=thread_id)
 
-        data = json.loads(thread_messages.data[0])
+        data = json.loads(thread_messages.data[0].json())
 
         message_response = data['content'][0]['text']['value']
 
-        return message_response
+        cleaned_response = self.__clean_meta_info(message_response)
+
+        print(cleaned_response)
+
+        return cleaned_response
 

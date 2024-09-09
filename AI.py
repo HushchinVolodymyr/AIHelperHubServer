@@ -6,9 +6,9 @@ from openai import OpenAI
 
 
 class AIHelperHub:
-    def __init__(self, api_key: str, chat_history: list, assistant: list) -> None:
+    def __init__(self, api_key: str, message: list, assistant: list) -> None:
         self.API_KEY = api_key
-        self.chat_history = chat_history
+        self.message = message
         self.client = OpenAI(api_key=self.API_KEY)
         self.assistant = assistant
         self.assistant_id = str(assistant['assistantId'])
@@ -21,7 +21,7 @@ class AIHelperHub:
             assistant_id=self.assistant_id,
             thread={
                 "messages": [
-                    {"role": "user", "content": self.chat_history[-1]["message"]},
+                    {"role": "user", "content": self.message["message"]},
                 ]
             }
         )

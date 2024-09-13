@@ -17,10 +17,13 @@ async def index(request):
    try:
       data = await request.json()
 
-      requestData = data['requestData']
+      print(data)
 
-      chatExample = str(requestData.get("assistant"))
-      messageReq = requestData.get("message")
+      chatExample = data.get("assistant")
+      messageReq = data.get("message")
+
+      print(chatExample)
+      print(messageReq)
 
       with open('config.json', 'r') as f:
          config = json.load(f)
@@ -29,7 +32,10 @@ async def index(request):
 
       assistantCfg = find_assistant_by_name(chatExample, chatAssistants)
 
+      print(assistantCfg)
+
       assistant = AIHelperHub(api_key=config['AI']['apiKey'],
+
                               message=messageReq, assistant=assistantCfg)
 
       message = assistant.generate_response()

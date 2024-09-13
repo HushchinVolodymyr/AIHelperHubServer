@@ -1,15 +1,15 @@
 import json
 
-from aiohttp import web
-from openai.types.beta import Assistant
+from aiohttp import web, request
 
 from AI import AIHelperHub
 from DTOs.messageDto import MessageDto
 
 
-def find_assistant_by_id(chatExample, chatAssitants):
-   for assistant in chatAssitants:
-      if assistant['id'] == chatExample['id']:
+def find_assistant_by_name(chatExample: str, chatAssistants: list):
+
+   for assistant in chatAssistants:
+      if assistant['assistantName'] == chatExample:
          return assistant
 
 
@@ -17,17 +17,17 @@ async def index(request):
    try:
       data = await request.json()
 
-      print(data)
+      requestData = data['requestData']
 
-      chatExample = data.get("chatExample")
-      messageReq = data.get("message")
+      chatExample = str(requestData.get("assistant"))
+      messageReq = requestData.get("message")
 
       with open('config.json', 'r') as f:
          config = json.load(f)
 
       chatAssistants = config["AI"]["assistants"]
 
-      assistantCfg = find_assistant_by_id(chatExample, chatAssistants)
+      assistantCfg = find_assistant_by_name(chatExample, chatAssistants)
 
       assistant = AIHelperHub(api_key=config['AI']['apiKey'],
                               message=messageReq, assistant=assistantCfg)

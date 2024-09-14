@@ -22,6 +22,7 @@ async def setup_app():
     for route in list(app.router.routes()):
         cors.add(route)
 
+    await print("hello")
     return app
 
 if __name__ == '__main__':
@@ -33,6 +34,6 @@ if __name__ == '__main__':
 
     app = setup_app()
     ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    ssl_context.load_cert_chain(certfile='./cert.pem', keyfile='./key.pem')
+    ssl_context.load_cert_chain(certfile='cert.pem', keyfile='key.pem')
 
     web.run_app(app, host=host_url, port=port, ssl_context=ssl_context)

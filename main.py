@@ -1,4 +1,5 @@
 import json
+import os
 
 import ssl
 import aiohttp_cors
@@ -32,7 +33,12 @@ if __name__ == '__main__':
     port = config['server']['port']
 
     app = setup_app()
+
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    cert_file = os.path.join(script_dir, 'cert.pem')
+    key_file = os.path.join(script_dir, 'key.pem')
+
     ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    ssl_context.load_cert_chain(certfile='./cert.pem', keyfile='./key.pem')
+    ssl_context.load_cert_chain(certfile=cert_file, keyfile=key_file)
 
     web.run_app(app, host=host_url, port=port, ssl_context=ssl_context)

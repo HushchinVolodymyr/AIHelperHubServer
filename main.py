@@ -38,6 +38,10 @@ if __name__ == '__main__':
     cert_file = os.path.join(script_dir, 'cert.pem')
     key_file = os.path.join(script_dir, 'key.pem')
 
+    if not os.path.isfile(cert_file) or not os.path.isfile(key_file):
+        print(f"Error: cert.pem or key.pem file not found in {script_dir}")
+        exit(1)
+
     ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
     ssl_context.load_cert_chain(certfile=cert_file, keyfile=key_file)
 
